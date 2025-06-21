@@ -45,8 +45,8 @@ Un environnement Docker unifié pour utiliser plusieurs bases de données locale
 
 ## Interfaces Web
 
-| Interface       | Version      |                       | URL             | User         | Password |
-| --------------- | ------------ | --------------------- | --------------- | ------------ | -------- |
+| Interface       | Version      | URL                   | User            | Password     |
+| --------------- | ------------ | --------------------- | --------------- | ------------ |
 | Adminer         | 4.8.1        | http://localhost:8080 | root / mysql    | root / mysql |
 | Redis Commander | Latest       | http://localhost:8081 |
 | PhpMyAdmin      | 5.2.2 Apache | http://localhost:8082 | root / mysql    | root /mysql  |
