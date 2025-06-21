@@ -25,6 +25,9 @@ Un environnement Docker unifié pour utiliser plusieurs bases de données locale
   - [Backup PostgreSql](#backup-postgresql)
     - [Backup](#backup-2)
     - [Restore](#restore-2)
+  - [Backup MongoDB](#backup-mongodb)
+    - [Backup](#backup-3)
+    - [Restore](#restore-3)
   - [Commandes](#commandes)
     - [Démarrer](#démarrer)
     - [Arrêter](#arrêter)
@@ -63,6 +66,8 @@ Un environnement Docker unifié pour utiliser plusieurs bases de données locale
 7.  collation server = utf8mb4_unicode_ci
 
 Faire pareil avec la connection MySQL par PhpMyAdmin.
+
+Ensuite tout les dumps sql de MariaDB et MySQL pourront être utilisé pour les ajouter à l'autre serveur si nécessaire et vice-versa.
 
 ## Thèmes personnalisées de PhpMyAdmin
 
@@ -129,7 +134,7 @@ sh backup.sh [nom_bd]
 ### Restore
 
 ```bash
-sh backup.sh [nom_script.sql]
+sh restore.sh [nom_script.sql]
 ```
 
 ## Backup MySQL
@@ -145,7 +150,7 @@ sh backup.sh [nom_bd]
 ### Restore
 
 ```bash
-sh backup.sh [nom_script.sql]
+sh restore.sh [nom_script.sql]
 ```
 
 ## Backup PostgreSql
@@ -161,7 +166,23 @@ sh backup.sh [nom_bd]
 ### Restore
 
 ```bash
-sh backup.sh [nom_script.sql]
+sh restore.sh [nom_script.sql]
+```
+
+## Backup MongoDB
+
+Je suggère d'utiliser Git Bash pour ceux sur Windows pour exécuter les script sh. Aussi faite le dans le dossier **backup/mongodb** l'exécution des commandes, c'est plus simple.
+
+### Backup
+
+```bash
+sh backup.sh [nom_bd]
+```
+
+### Restore
+
+```bash
+sh restore.sh [nom_bd] [nom_archive.tar.gz]
 ```
 
 ## Commandes

@@ -60,6 +60,16 @@ services:
     volumes:
       - mongodb_data:/data/db
 
+  mongo-tools:
+    image: mongo:8.0
+    container_name: mongo-tools
+    restart: "no"
+    depends_on:
+      - mongodb
+    entrypoint: ["tail", "-f", "/dev/null"] # pour garder le conteneur actif
+    volumes:
+      - ./backups/mongodb:/backups
+
   redis:
     image: redis:8.0
     container_name: redis
