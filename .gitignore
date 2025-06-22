@@ -1,3 +1,11 @@
 backups/**/*.sql
 backups/**/*.tar.gz
 backups/**/tmp
+dbgate/apps
+dbgate/files
+dbgate/logs
+dbgate/plugins
+dbgate/run
+dbgate/cloud-files-tags.txt
+dbgate/cloud-files.jsonl
+dbgate/uploads

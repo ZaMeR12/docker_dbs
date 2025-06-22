@@ -132,6 +132,32 @@ services:
     depends_on:
       - postgres
 
+  dbgate:
+    image: dbgate/dbgate:latest
+    container_name: dbgate
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      interval: 5s
+      timeout: 2s
+      retries: 10
+    ports:
+      - "8084:3000"
+    volumes:
+      - ./dbgate:/root/.dbgate
+    environment:
+      DBGATE_AUTH_SECRET: "7e1cac3b-d148-4100-a934-e1fa2bb3b893"
+      DBGATE_KEY: 7e1cac3b-d148-4100-a934-e1fa2bb3b893
+      DBGATE_AUTH: true
+      DBGATE_DEFAULT_USER: admin
+      DBGATE_DEFAULT_PASSWORD: admin
+    depends_on:
+      - mariadb
+      - mysql
+      - postgres
+      - mongodb
+      - redis
+
 volumes:
   mariadb_data:
   mysql_data:
