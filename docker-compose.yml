@@ -4,14 +4,14 @@ services:
     container_name: mariadb
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_USER: mysql
-      MYSQL_PASSWORD: mysql
-      MYSQL_DATABASE: mydb
-      MYSQL_CHARSET: utf8mb4
-      MYSQL_COLLATION: utf8mb4_unicode_ci
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_USER: mysql
+      MARIADB_PASSWORD: mysql
+      MARIADB_DATABASE: mydb, giteadb
+      MARIADB_CHARSET: utf8mb4
+      MARIADB_COLLATION: utf8mb4_unicode_ci
     ports:
-      - "3306:3306"
+      - '3306:3306'
     volumes:
       - mariadb_data:/var/lib/mysql
       - ./mariadb-init:/docker-entrypoint-initdb.d
@@ -28,7 +28,7 @@ services:
       MYSQL_USER: mysql
       MYSQL_PASSWORD: mysql
     ports:
-      - "3307:3306" # port hôte différent pour éviter conflit avec mariadb
+      - '3307:3306' # port hôte différent pour éviter conflit avec mariadb
     volumes:
       - mysql_data:/var/lib/mysql
       - ./mysql-init:/docker-entrypoint-initdb.d
@@ -43,7 +43,7 @@ services:
       POSTGRES_PASSWORD: root
       POSTGRES_DB: postgres
     ports:
-      - "5432:5432"
+      - '5432:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
       - ./backups/postgres:/backups
@@ -56,17 +56,17 @@ services:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: root
     ports:
-      - "27018:27017"
+      - '27018:27017'
     volumes:
       - mongodb_data:/data/db
 
   mongo-tools:
     image: mongo:8.0
     container_name: mongo-tools
-    restart: "no"
+    restart: 'no'
     depends_on:
       - mongodb
-    entrypoint: ["tail", "-f", "/dev/null"] # pour garder le conteneur actif
+    entrypoint: ['tail', '-f', '/dev/null'] # pour garder le conteneur actif
     volumes:
       - ./backups/mongodb:/backups
 
@@ -75,17 +75,17 @@ services:
     container_name: redis
     restart: unless-stopped
     ports:
-      - "6379:6379"
+      - '6379:6379'
     volumes:
       - ./redis/redis.conf:/usr/local/etc/redis/redis.conf
-    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+    command: ['redis-server', '/usr/local/etc/redis/redis.conf']
 
   adminer:
     image: adminer:4.8.1
     container_name: adminer
     restart: unless-stopped
     ports:
-      - "8080:8080"
+      - '8080:8080'
     depends_on:
       - mariadb
       - mysql
@@ -100,7 +100,7 @@ services:
     environment:
       REDIS_HOSTS: local:redis:6379
     ports:
-      - "8081:8081"
+      - '8081:8081'
     depends_on:
       - redis
 
@@ -112,7 +112,7 @@ services:
       PMA_HOSTS: mariadb,mysql # multiple hôtes supportés en séparant par des virgules
       PMA_PORT: 3306 # port standard, mysql est mappé sur 3307 côté host mais interne c'est toujours 3306
     ports:
-      - "8082:80"
+      - '8082:80'
     volumes:
       - ./phpmyadmin/themes:/var/www/html/themes
       - ./phpmyadmin/config.user.inc.php:/var/www/html/config.user.inc.php
@@ -128,7 +128,7 @@ services:
       PGADMIN_DEFAULT_EMAIL: admin@admin.com
       PGADMIN_DEFAULT_PASSWORD: root
     ports:
-      - "8083:80"
+      - '8083:80'
     depends_on:
       - postgres
 
@@ -137,16 +137,16 @@ services:
     container_name: dbgate
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000"]
+      test: ['CMD', 'curl', '-f', 'http://localhost:3000']
       interval: 5s
       timeout: 2s
       retries: 10
     ports:
-      - "8084:3000"
+      - '8084:3000'
     volumes:
       - ./dbgate:/root/.dbgate
     environment:
-      DBGATE_AUTH_SECRET: "7e1cac3b-d148-4100-a934-e1fa2bb3b893"
+      DBGATE_AUTH_SECRET: '7e1cac3b-d148-4100-a934-e1fa2bb3b893'
       DBGATE_KEY: 7e1cac3b-d148-4100-a934-e1fa2bb3b893
       DBGATE_AUTH: true
       DBGATE_DEFAULT_USER: admin
@@ -157,6 +157,27 @@ services:
       - postgres
       - mongodb
       - redis
+  gitea:
+    image: docker.gitea.com/gitea:1.24.6
+    container_name: gitea
+    environment:
+      - USER_UID=1000
+      - USER_GID=1000
+      - GITEA__database__DB_TYPE=mysql
+      - GITEA__database__HOST=mariadb:3306
+      - GITEA__database__NAME=giteadb
+      - GITEA__database__USER=root
+      - GITEA__database__PASSWD=root
+    restart: always
+    volumes:
+      - ./gitea:/data/gitea/conf
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+    ports:
+      - '3333:3000'
+      - '222:22'
+    depends_on:
+      - mariadb
 
 volumes:
   mariadb_data:

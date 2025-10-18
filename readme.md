@@ -37,21 +37,22 @@ Un environnement Docker unifié pour utiliser plusieurs bases de données locale
 
 ## Services inclus
 
-| Service    | Version | Port  | Utilisateur  | Mot de passe |
-| ---------- | ------- | ----- | ------------ | ------------ |
-| MariaDB    | 11.8.2  | 3306  | root / mysql | root / mysql |
-| PostgreSQL | 17.5    | 5432  | root         | root         |
-| Redis      | 8.0     | 6379  | —            | —            |
-| MongoDB    | 8.0     | 27018 | root         | root         |
-| MySQL      | 8.0     | 3307  | root / mysql | root / mysql |
+| Service    | Version | Port     | Utilisateur  | Mot de passe |
+|------------|---------|----------|--------------|--------------|
+| MariaDB    | 11.8.2  | 3306     | root / mysql | root / mysql |
+| PostgreSQL | 17.5    | 5432     | root         | root         |
+| Redis      | 8.0     | 6379     | —            | —            |
+| MongoDB    | 8.0     | 27018    | root         | root         |
+| MySQL      | 8.0     | 3307     | root / mysql | root / mysql |
+| Gitea      | 1.24.6  | 3333/222 | votre choix  | votre choix  |
 
 > MongoDB est sur le port 27018 au lieu de 27017, car j'ai de mon bord l'installation complète de MongoDB Compass qui m'a aussi installé mongosh qui contient un serveur MongoDB.
 
 ## Interfaces Web
 
-| Interface       | Version      | URL                   | User            | Password     |
-| --------------- | ------------ | --------------------- | --------------- | ------------ |
-| Adminer         | 4.8.1        | http://localhost:8080 | root / mysql    | root / mysql |
+| Interface | Version | URL                   | User         | Password     |
+|-----------|---------|-----------------------|--------------|--------------|
+| Adminer   | 4.8.1   | http://localhost:8080 | root / mysql | root / mysql |
 | Redis Commander | Latest       | http://localhost:8081 |
 | PhpMyAdmin      | 5.2.2 Apache | http://localhost:8082 | root / mysql    | root /mysql  |
 | PgAdmin         | 4.9.4        | http://localhost:8083 | admin@admin.com | root         |

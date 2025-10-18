@@ -9,3 +9,6 @@ dbgate/run
 dbgate/cloud-files-tags.txt
 dbgate/cloud-files.jsonl
 dbgate/uploads
+
+gitea/*
+gitea
